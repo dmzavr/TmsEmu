@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TankListViewModel extends GlobalViewModel {
 
-    TankListViewModel(Runnable onClear, Integer fake)
+    public TankListViewModel(Runnable onClear, Integer fake)
     {
         super(onClear, fake);
     }
@@ -48,7 +48,7 @@ public class TankListViewModel extends GlobalViewModel {
     {
         List< Integer > lst = tankList.getValue();
         if( lst.contains(item.tankCfg.channelId) ) {
-            Log.w("TankListViewModel", "Уже есть резервуар с №" + item.tankCfg.channelId);
+//            Log.w("TankListViewModel", "Уже есть резервуар с №" + item.tankCfg.channelId);
             return false;
         }
         TmsEmuStorage.getInstance().putItem( item );

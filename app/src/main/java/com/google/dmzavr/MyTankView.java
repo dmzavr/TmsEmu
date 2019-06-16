@@ -23,7 +23,7 @@ public class MyTankView extends View {
             if( MeasureSpec.AT_MOST == specMode )
                 result = Math.min( result, specSize );
         }
-        Log.d("TankView", "Desired size: " + Integer.toString(desiredSize) + ", result: " + Integer.toString(result) );
+//        Log.d("TankView", "Desired size: " + Integer.toString(desiredSize) + ", result: " + Integer.toString(result) );
         return result;
     }
 

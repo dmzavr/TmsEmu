@@ -10,7 +10,7 @@ public abstract class GlobalViewModel extends ViewModel {
 
     private final Runnable mOnShareCleared;
 
-    protected GlobalViewModel(Runnable onShareCleared, Integer param) {
+    public GlobalViewModel(Runnable onShareCleared, Integer param) {
         mRefCounter = new AtomicInteger(0);
         mOnShareCleared = onShareCleared;
     }
