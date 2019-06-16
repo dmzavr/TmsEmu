@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Tms Emu</string>
+    <string name="water_level_mm">Water Level, mm</string>
+    <string name="water_volume_l">Water Volume, L</string>
+    <string name="total_fluid_level_including_water_mm">Total Fluid Level (including water), mm</string>
+    <string name="fuel_netto_volume_l">Fuel Netto Volume, L</string>
+    <string name="add_a_new_tank">Tap here to add a new tank</string>
+    <string name="tank_cfg">Tank Cfg</string>
+    <string name="sample">Sample</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="save">Save</string>
+    <string name="fvol_nliters">FVol,\nLiters</string>
+    <string name="tc_density">TC Density</string>
+    <string name="tcdens_ng_m">TcDens,\ng/m³:</string>
+    <string name="fuel_volume_l">Fuel Volume, L</string>
+    <string name="liquid_level">Liquid level</string>
+    <string name="total_lvl_nmm">Total Lvl\n,mm</string>
+    <string name="wvol_nliters">WVol,\nLiters</string>
+    <string name="wlvl_nmm">WLvl,\nmm</string>
+    <string name="water_volume">Water volume</string>
+    <string name="auto_recalc_related_values">Auto recalc related values:</string>
+    <string name="fuel_density">Fuel Density</string>
+    <string name="mass_nkg">Mass,\nkg:</string>
+    <string name="fuel_mass">Fuel mass</string>
+    <string name="water_level">Water level</string>
+    <string name="density_ng_m">Density\n,g/m³:</string>
+    <string name="t_c">t, C°:</string>
+    <string name="tcvol_nliters">TcVol,\nLiters</string>
+    <string name="tc_volume">TC Volume</string>
+    <string name="fuel_temp">Fuel Temp</string>
+</resources>
