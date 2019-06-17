@@ -23,8 +23,19 @@ public class TanksView extends AppCompatActivity
 
     public void infoMsg(String msg_)
     {
-        CharSequence cseq = msg_ + msg.getText();
-        msg.setText( cseq.subSequence(0, cseq.length() > 400 ? 400 : cseq.length() - 1 ) );
+        class PutLogMsg implements Runnable {
+            private final String msg_;
+            private PutLogMsg(String m) {
+                msg_ = String.valueOf(m);
+            }
+
+            @Override
+            public void run() {
+                CharSequence cseq = msg_ + msg.getText();
+                msg.setText(cseq.subSequence(0, cseq.length() > 400 ? 400 : cseq.length() - 1));
+            }
+        }
+        runOnUiThread( new PutLogMsg(msg_) );
     }
 
     @Override
@@ -49,7 +60,7 @@ public class TanksView extends AppCompatActivity
 
         server = new Server(this);
 //        infoip.setText(server.getIpAddress() + ":" + server.getPort());
-        Toast toast = Toast.makeText( getApplicationContext(), server.getIpAddress() + ":" + server.getPort(), Toast.LENGTH_LONG );
+        Toast toast = Toast.makeText( getApplicationContext(), server.getIpAddress(), Toast.LENGTH_LONG );
         toast.show();
     }
 

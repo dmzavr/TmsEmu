@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 
 class TLSProto {
     private static byte[] dbl2HexFloat(Double in, boolean forceNull) {
@@ -104,7 +105,7 @@ class TLSProto {
                             + (null == sample.waterVolume ? 0. : sample.waterVolume)
             );
 
-            bb.put(String.format("%02d", channel).getBytes())
+            bb.put(String.format(Locale.US, "%02d", channel).getBytes())
                     .put((byte) (48 + (channel % 80)))
                     .put("0000".getBytes())
                     .put("0B".getBytes())
@@ -153,7 +154,7 @@ class TLSProto {
 //               27 = Tank Cold Temperature Warning
 //            5. && - Data Termination Flag
 //            6. CCCC - Message Checksum
-            bb.put( String.format( "%02d", channel).getBytes() ).put("00".getBytes());
+            bb.put( String.format( Locale.US, "%02d", channel).getBytes() ).put("00".getBytes());
         }
     }
 
@@ -204,7 +205,7 @@ class TLSProto {
                             + (null == sample.waterVolume ? 0. : sample.waterVolume)
             );
 
-            bb.put( String.format( "%02d", channel).getBytes() )
+            bb.put( String.format( Locale.US, "%02d", channel).getBytes() )
                     .put((byte)(48 + (channel % 80)))
                     .put("0000".getBytes())
                     .put("07".getBytes())
@@ -230,7 +231,7 @@ class TLSProto {
         ByteBuffer bb = ByteBuffer.allocate( 30 + replyChunkGenerator.get_out_chunk_size() * ( req_channel > 0 ? 1 : ( null == channels ? 0 : channels.size() ) ) );
 
         Date date = new Date();
-        SimpleDateFormat fmt = new SimpleDateFormat("yyMMddHHmm");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyMMddHHmm", Locale.US );
 
         bb.put ( (byte)1 )
                 .put( cmd.getBytes() )
@@ -262,7 +263,7 @@ class TLSProto {
 //            6.           CCCC - Message Checksum
 
         Date date = new Date();
-        SimpleDateFormat fmt = new SimpleDateFormat("yyMMddHHmm");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyMMddHHmm", Locale.US );
 
         ByteBuffer bb = ByteBuffer.allocate( 100 );
         bb.put ( (byte)1 )
@@ -307,7 +308,7 @@ public class Server {
         socketServerThread.start();
     }
 
-    public int getPort() {
+    private int getPort() {
         return socketServerPORT;
     }
 
@@ -366,7 +367,7 @@ public class Server {
         @Override
         public void run() {
             int req_no = 0;
-            final String hostAndPort = hostThreadSocket.getInetAddress() + ":" + + hostThreadSocket.getPort();
+            final String hostAndPort = hostThreadSocket.getInetAddress().getHostAddress() + ":" + + hostThreadSocket.getPort();
             try {
                 InputStream inputStream = hostThreadSocket.getInputStream();
 
@@ -386,29 +387,32 @@ public class Server {
                     req_no++;
                     byte[] reply = TLSProto.makeReply(activity, cmd_str);
 
-                    message = "#" + cnt + "." + req_no + ". Host: " + hostAndPort + ", req: " + cmd_str + "\n";
+                    message = "#" + cnt + "." + req_no + ". Src: " + hostAndPort + ", req: " + cmd_str + "\n";
                     if( null != reply )
                         hostThreadSocket.getOutputStream().write(reply);
 
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            activity.infoMsg(message);
-                        }
-                    });
+                    activity.infoMsg(message);
+
+//                    activity.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            activity.infoMsg(message);
+//                        }
+//                    });
                 }
                 hostThreadSocket.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
-                message += "Something wrong! " + e.toString() + "\n";
+                // e.printStackTrace();
+                activity.infoMsg("Something wrong! " + e.toString() + "\n");
             }
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.infoMsg( "#" + cnt + ". Host: " + hostAndPort + " conn closed\n" );
-                }
-            });
+//            activity.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    activity.infoMsg( "#" + cnt + ". Host: " + hostAndPort + " conn closed\n" );
+//                }
+//            });
+            activity.infoMsg("#" + cnt + ". Src: " + hostAndPort + " conn closed\n");
         }
 
     }
@@ -428,11 +432,16 @@ public class Server {
                             .nextElement();
 
                     if (inetAddress.isSiteLocalAddress()) {
-                        ip += "Server running at : "
-                                + inetAddress.getHostAddress();
+                        if( ip.isEmpty() )
+                            ip = "Server running at : ";
+                        else
+                            ip += "\n";
+                        ip += inetAddress.getHostAddress() + ":" + getPort();
                     }
                 }
             }
+            if(ip.isEmpty())
+                ip = "*:" + getPort();
 
         } catch (SocketException e) {
             // TODO Auto-generated catch block
