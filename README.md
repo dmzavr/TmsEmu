@@ -11,6 +11,4 @@ Communication channel - TCP socket only.
 
 Allows to create up to 8 channels (tanks) and set its readings using simple GUI-editor.
 
-APK debug: https://drive.google.com/file/d/1KLnMwSk4gvyE_ebNTOS9n0TiRon2Gw2z/view?usp=sharing
-
-APK release: https://drive.google.com/file/d/1Vk98yFq8fj3l6jZQKiJZqAT6esnVY20D/view?usp=sharing
+APKs: https://drive.google.com/open?id=1I0eNPoAy7l-ATnEQ-mGz9kKxW2xiKjU7
